@@ -24,7 +24,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+          # Добавляем SSH host key вручную
+          echo "104.198.61.229 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIYhKhjxfhCb3NXl0UgXJSfABQ5FeJS2Njg9K17dFEyNbGHZ0S2jYkXat2fHOcF+ndlc69B8USTxr2+/RQnSCuSF1hct616YFsZ1gOC8fDgLGe/ozeE05aLkJB1WM3CQBmvb9QS36Sqkr3ttfNhHkBeH0UlvEcVfex5R8o8hrYeRRjWyQLNXQYpb30QOhHIAIxWITxMY1l0uFn4sHD3Ta9WGNzGENRRUdurxlUG1vOeoWXfX1o6DCEGnW1uinfYDCRsBHpmVq5gBqSiyYBN2ErJSC+F3LrTKL0KEc5161nZCl1L1K3WkjcPA76TWgPW2eoT169wpa8K1xVnvfdCWSUgMd8UMTS4GZMsr1KHPt3LK9s/yimEby5CNXwy9vec2DWy1Y/VEi0QlHJq2Gq+bukhPPuXQZLqZyX6Y5CPWU4N6jIW/2ZbnCf8MtIz+AqrzuSOJbpnZT2eCE7+4eH/K0s7985A75uKZXyjM9qq0Jbe9N/LwbT1ujCrSf7fz5rGV8=" >> ~/.ssh/known_hosts
 
       - name: Deploy to GCP VM
         run: |
