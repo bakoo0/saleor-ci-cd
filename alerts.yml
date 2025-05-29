@@ -1,0 +1,48 @@
+groups:
+  - name: saleor_alerts
+    rules:
+
+      - alert: HighApiLatency
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая задержка API"
+          description: "95-й перцентиль времени ответа API превышает 1 секунду"
+
+      - alert: HighHttpErrors
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Высокий процент HTTP ошибок 5xx"
+          description: "Более 5% ответов с кодом 5xx"
+
+      - alert: HighCpuUsage
+        expr: process_cpu_seconds_total > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая загрузка CPU"
+          description: "Загрузка CPU выше 90%"
+
+      - alert: LowMemory
+        expr: process_resident_memory_bytes < 100000000
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Недостаток памяти"
+          description: "Свободной памяти меньше 100 МБ"
+
+      - alert: HighCeleryQueueLength
+        expr: celery_tasks_queued > 1000
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Длинная очередь задач"
+          description: "В очереди задач Celery более 1000 задач"

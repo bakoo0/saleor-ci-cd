@@ -1,0 +1,21 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'telegram'
+  group_wait: 10s
+  group_interval: 10m
+  repeat_interval: 1h
+
+receivers:
+- name: 'telegram'
+  telegram_configs:
+  - bot_token: '8021436099:AAGQM0uR8gSwuYIA0H4bb4YbVJreEKKfcFQ'
+    chat_id: 1309922617
+    parse_mode: 'Markdown'
+    message: |-
+      *[{{ .Status | toUpper }}]* {{ .CommonLabels.alertname }}
+      {{ range .Alerts }}
+      • *Описание:* {{ .Annotations.description }}
+      • *Время:* {{ .StartsAt }}
+      {{ end }}
