@@ -3,7 +3,7 @@ name: Saleor CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-test-deploy:
@@ -30,7 +30,7 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.VM_HOST }} << 'EOF'
             cd ~/saleor-platform
-            git pull origin master
+            git pull origin main
             docker compose down
             docker compose up -d --build
           EOF
